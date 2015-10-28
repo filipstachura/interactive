@@ -1,7 +1,16 @@
 Note = React.createClass({
+  getInitialState() {
+    return {result: null};
+  },
   calculate() {
       let code = this.refs.codeInput.getDOMNode().value;
-      Connection.send(code);
+      let promise = Connection.send(code);
+      promise.then((message) => {
+        console.log(`Note received ${message}`);
+        let result = JSON.stringify(JSON.parse(message).value, null, '\t');;
+        this.setState({result});
+        this.props.notebook.noteResolved(this);
+      });
   },
   render() {
     return (
@@ -11,7 +20,7 @@ Note = React.createClass({
           <button onClick={this.calculate} className="ui basic button">Calculate</button>
         </div>
         <div className="ui message">
-          <p className="result-in-here"></p>
+          <p>{this.state.result}</p>
         </div>
       </div>
     );
