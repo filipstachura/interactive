@@ -6,8 +6,21 @@ FlowRouter.route("/", {
     */
   },
   action: function() {
+    let rSession = new RSession();
     ReactLayout.render(MainLayout, {
-      content: <Notebook />
+      content: <NotebookList />
+    });
+  }
+});
+
+FlowRouter.route("/notebook/:id", {
+  subscriptions: function() {},
+  action: function(params) {
+    let notebookId = params.id;
+    console.log(`Notebook id ${notebookId}`);
+    let rSession = new RSession();
+    ReactLayout.render(MainLayout, {
+      content: <Notebook session={rSession}/>
     });
   }
 });

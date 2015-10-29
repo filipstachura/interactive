@@ -1,4 +1,4 @@
-class EvaluatorConnection {
+EvaluatorConnection = class {
   constructor() {
     const connectionURI = "ws://localhost:9454";
     this.webSocket = new WebSocket(connectionURI);
@@ -14,5 +14,3 @@ class EvaluatorConnection {
     })
   }
 }
-
-Connection = new EvaluatorConnection();

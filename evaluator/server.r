@@ -5,16 +5,7 @@ library(gdata)
 library(Cairo)
 library(png)
 library(ggplot2)
-
-getBinaryPlot <- function() {
-  tempPath <- paste("./temp-", sample(10^12, 1),".png", sep="")
-  qplot(rnorm(sample(1000,1)))
-  ggsave(tempPath, width = 4, height = 3)
-  size <- file.size(tempPath)
-  bin <- readBin(tempPath, "raw", n = size)
-  unlink(tempPath)
-  bin
-}
+library(base64enc)
 
 serveAsJSON <- function (data) {
   body <- toString(toJSON(data))
@@ -25,6 +16,27 @@ serveAsJSON <- function (data) {
 
 appEnv <- new.env()
 
+evaluateMessage <- function(message) {
+    tempPath <- paste("./temp-", sample(10^12, 1),".png", sep="")
+
+    png(file = tempPath, bg = "transparent")
+    result <- eval(parse(text = message), envir=appEnv)
+    dev.off()
+
+    if (file.exists(tempPath)) {
+      print("got binary")
+      size <- file.size(tempPath)
+      bin <- base64encode(readBin(tempPath, "raw", n = size))
+      result <- NA
+      unlink(tempPath)
+    } else {
+      print("no binary")
+      bin <- NA
+    }
+
+    list(result = result, bin = bin, ls = eapply(appEnv, typeof))
+}
+
 webApp <- list(
   call = function (req) {
     serveAsJSON(list(status="live"))
@@ -34,10 +46,11 @@ webApp <- list(
       print(paste("Just received message", message))
 
       result = tryCatch({
-          eval(parse(text = message), envir=appEnv)
+          evaluateMessage(message)
         },
         error = function(cond) {
           message(paste("Error during evaluation of message: ", message))
+          message(cond)
           return("Error")
         }
       )
