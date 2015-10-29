@@ -3,10 +3,10 @@ MainLayout = React.createClass({
     return <div>
       <div className="ui inverted menu">
         <div className="ui container">
-          <div href="#" className="header item">
+          <a href="/" className="header item">
             <i className="code icon"></i>
             InteRactive
-          </div>
+          </a>
         </div>
       </div>
 
