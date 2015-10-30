@@ -1,6 +1,9 @@
 RSession = class {
   constructor() {
-    this.connection = new EvaluatorConnection();
+    // Empty evaluation to get ls from server.
+    let onOpen = () => this.evaluate("1");
+
+    this.connection = new EvaluatorConnection(onOpen);
     this.ls = [];
   }
 

@@ -1,4 +1,11 @@
 Notebook = React.createClass({
+  mixins: [ReactMeteorData],
+  getMeteorData() {
+    let notebookId = this.props.notebookId;
+    return {
+      notebook: Notebooks.findOne({ _id: notebookId })
+    };
+  },
   getInitialState() {
     return {
       notes: [{}]
@@ -16,7 +23,7 @@ Notebook = React.createClass({
           <EnvironmentList session={rSession} />
         </div>
         <div className="twelve wide column">
-          <h1 className="ui header">Notebook</h1>
+          <h1 className="ui header">{this.data.notebook.name}</h1>
           {this.state.notes.map((note, nr) =>
             <Note key={nr} notebook={this} session={rSession}/>
           )}

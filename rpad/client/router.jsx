@@ -19,7 +19,7 @@ FlowRouter.route("/notebook/:id", {
     let notebookId = params.id;
     let rSession = new RSession();
     ReactLayout.render(MainLayout, {
-      content: <Notebook session={rSession}/>
+      content: <Notebook notebookId={notebookId} session={rSession}/>
     });
   }
 });

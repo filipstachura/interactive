@@ -1,7 +1,8 @@
 EvaluatorConnection = class {
-  constructor() {
+  constructor(onOpenHandler) {
     const connectionURI = "ws://localhost:9454";
     this.webSocket = new WebSocket(connectionURI);
+    this.webSocket.onopen = onOpenHandler;
   }
 
   send(message) {
