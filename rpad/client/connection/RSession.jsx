@@ -1,29 +1,19 @@
 RSession = class {
   constructor() {
-    // Empty evaluation to get ls from server.
-    let onOpen = () => this.evaluate("1");
-
-    this.connection = new EvaluatorConnection(onOpen);
-    this.ls = [];
+    this.connected = new Promise((resolve, reject) => {
+      let onOpen = resolve;
+      this.connection = new EvaluatorConnection(onOpen);
+    });
   }
 
-  onLsChange(fun) {
-    this.onLsChangeHandler = fun;
+  getEnv(notebookId) {
+    return new REnvironment(this, notebookId);
   }
 
-  setLs(ls) {
-    this.ls = ls;
-    this.onLsChangeHandler();
+  evaluate(message) {
+    return this.connected.then(() =>
+      this.connection.send(message)
+        .then(response => JSON.parse(response).value)
+    );
   }
-
-  getLs() {
-    return this.ls;
-  }
-
-  evaluate(expression) {
-    let result = this.connection.send(expression)
-      .then(response => JSON.parse(response).value);
-    result.then(value => this.setLs(value.ls));
-    return result;
-  }
-}
+};

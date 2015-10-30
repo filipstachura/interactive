@@ -1,14 +1,14 @@
 EnvironmentList = React.createClass({
   getInitialState() {
-    let rSession = this.props.session;
-    rSession.onLsChange(this.envirionmentUpdated);
+    let rEnv = this.props.env;
+    rEnv.onLsChange(this.envirionmentUpdated);
     return {
-      ls: rSession.getLs()
+      ls: rEnv.getLs()
     };
   },
   envirionmentUpdated() {
     this.setState({
-      ls: this.props.session.getLs()
+      ls: this.props.env.getLs()
     })
   },
   getIconClassForType(typename) {

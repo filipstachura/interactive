@@ -4,7 +4,7 @@ Note = React.createClass({
   },
   calculate() {
       let code = this.refs.codeInput.getDOMNode().value;
-      let promise = this.props.session.evaluate(code);
+      let promise = this.props.env.evaluate(code);
       promise.then(data => {
         this.setState({data});
         this.props.notebook.noteResolved(this);

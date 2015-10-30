@@ -14,4 +14,4 @@ EvaluatorConnection = class {
       };
     })
   }
-}
+};

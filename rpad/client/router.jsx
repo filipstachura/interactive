@@ -1,3 +1,5 @@
+let rSession = new RSession();
+
 FlowRouter.route("/", {
   subscriptions: function() {
     /*
@@ -17,9 +19,9 @@ FlowRouter.route("/notebook/:id", {
   subscriptions: function() {},
   action: function(params) {
     let notebookId = params.id;
-    let rSession = new RSession();
+    let rEnv = rSession.getEnv(notebookId);
     ReactLayout.render(MainLayout, {
-      content: <Notebook notebookId={notebookId} session={rSession}/>
+      content: <Notebook notebookId={notebookId} env={rEnv}/>
     });
   }
 });

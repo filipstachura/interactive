@@ -14,13 +14,27 @@ serveAsJSON <- function (data) {
   list(status = 200L, headers = headers, body = body)
 }
 
-appEnv <- new.env()
+appEnvs <- list()
 
-evaluateMessage <- function(message) {
+loadEnv <- function(envId) {
+  print(paste("looking for env", envId))
+  print(names(appEnvs))
+  if (is.null(appEnvs[[envId]])) {
+    print("not cached")
+    appEnvs[[envId]] <<- new.env()
+  }
+  appEnvs[[envId]]
+}
+
+evaluateMessage <- function(json) {
+    message <- fromJSON(json)
     tempPath <- paste("./temp-", sample(10^12, 1),".png", sep="")
 
+    appEnv <- loadEnv(message$env)
+    print(ls(appEnv))
+
     png(file = tempPath, bg = "transparent")
-    result <- eval(parse(text = message), envir=appEnv)
+    result <- eval(parse(text = message$content), envir=appEnv)
     dev.off()
 
     if (file.exists(tempPath)) {
@@ -50,7 +64,7 @@ webApp <- list(
         },
         error = function(cond) {
           message(paste("Error during evaluation of message: ", message))
-          message(cond)
+          print(toString(cond))
           return("Error")
         }
       )

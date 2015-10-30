@@ -16,16 +16,16 @@ Notebook = React.createClass({
       this.setState(this.state);
   },
   render() {
-    let rSession = this.props.session;
+    let rEnv = this.props.env;
     return (
       <div className="ui stackable grid container">
         <div className="four wide column">
-          <EnvironmentList session={rSession} />
+          <EnvironmentList env={rEnv} />
         </div>
         <div className="twelve wide column">
           <h1 className="ui header">{this.data.notebook.name}</h1>
           {this.state.notes.map((note, nr) =>
-            <Note key={nr} notebook={this} session={rSession}/>
+            <Note key={nr} notebook={this} env={rEnv}/>
           )}
         </div>
       </div>
