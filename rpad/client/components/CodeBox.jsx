@@ -1,11 +1,3 @@
-const style = {
-  toggle: {
-    position: "absolute",
-    top: "0",
-    right: "0"
-  }
-};
-
 CodeBox = React.createClass({
   getInitialState() {
     return {
@@ -29,3 +21,11 @@ CodeBox = React.createClass({
     );
   }
 });
+
+const style = {
+  toggle: {
+    position: "absolute",
+    top: "0",
+    right: "0"
+  }
+};
