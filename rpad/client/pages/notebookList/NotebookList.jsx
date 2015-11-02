@@ -6,9 +6,10 @@ NotebookList = React.createClass({
     };
   },
   createNotebook() {
-    Notebooks.insert({
+    let notebookId = Notebooks.insert({
       name: "Notebook-" + Math.trunc(Math.random() * 10000)
     });
+    Notes.insert({ notebookId });
   },
   render() {
     return (

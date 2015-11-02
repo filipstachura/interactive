@@ -1,8 +1,10 @@
 NotebookListItem = React.createClass({
   removeNotebook() {
+    let notebookId = this.props.notebook._id;
     Notebooks.remove({
-      _id: this.props.notebook._id
+      _id: notebookId
     });
+    Notes.find({ notebookId }).fetch().map( note => Notes.remove({_id: note._id}));
   },
   render() {
     let notebook = this.props.notebook;

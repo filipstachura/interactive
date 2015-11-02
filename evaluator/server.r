@@ -48,7 +48,7 @@ evaluateMessage <- function(json) {
       bin <- NA
     }
 
-    list(result = result, bin = bin, ls = eapply(appEnv, typeof))
+    list(text = result, bin = bin, ls = eapply(appEnv, typeof))
 }
 
 webApp <- list(
