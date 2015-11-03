@@ -14,6 +14,7 @@ EnvironmentList = React.createClass({
   getIconClassForType(typename) {
     let icons = {
       "double": "calculator",
+      "integer": "sort numeric ascending",
       "character": "book",
       "logical": "adjust"
     };

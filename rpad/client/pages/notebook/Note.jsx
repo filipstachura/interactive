@@ -7,8 +7,10 @@ Note = React.createClass({
         results: data,
         command: code
       }});
-      Notes.insert({ notebookId: this.props.note.notebookId });
-      this.props.notebook.noteResolved(this);
+      Notes.insert({
+        notebookId: this.props.note.notebookId,
+        timestamp: Math.trunc(new Date() / 1000)
+      });
     });
   },
   removeNote() {

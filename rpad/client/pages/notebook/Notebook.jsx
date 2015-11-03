@@ -3,10 +3,11 @@ Notebook = React.createClass({
   getMeteorData() {
     let notebookId = this.props.notebookId;
     return {
-      notes: Notes.find({ notebookId }).fetch()
+      notes: Notes.find({ notebookId }, { sort: { timestamp: 1 } }).fetch()
     };
   },
   render() {
+    if (!this.data) return <Loader />;
     let { notebookId, env } = this.props;
     return (
       <div className="ui stackable grid container">

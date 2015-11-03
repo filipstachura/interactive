@@ -26,6 +26,7 @@ NotebookTitle = React.createClass({
     });
   },
   render() {
+    if (!this.data.notebook) return <Loader />;
     if (!this.state.editing) {
       return <h1 onClick={this.editName} className="ui header">{this.data.notebook.name}</h1>;
     } else {
